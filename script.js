@@ -51,18 +51,19 @@ document.addEventListener('mouseup', () => {
 });
 
 canvas.addEventListener('mousemove', (e) => {
-  if (isPressed) {
-    const rect = canvas.getBoundingClientRect(); 
-    const offsetX = e.clientX - rect.left; 
-    const offsetY = e.clientY - rect.top; 
-    const y2 = offsetY;
-    drawCircle(x2, y2);
-    drawLine(x, y, x2, y2);
-    x = x2;
-    y = y2;
-  }
-});
-
+    if (isPressed) {
+      const rect = canvas.getBoundingClientRect(); // Get the size and position of the canvas
+      const offsetX = e.clientX - rect.left; // Calculate the X-coordinate relative to the canvas
+      const offsetY = e.clientY - rect.top; // Calculate the Y-coordinate relative to the canvas
+      const x2 = offsetX;
+      const y2 = offsetY;
+      drawCircle(x2, y2);
+      drawLine(x, y, x2, y2);
+      x = x2;
+      y = y2;
+    }
+  });
+  
 function updateSizeOnScreen() {
   sizeEl.innerText = size;
 }
@@ -88,8 +89,8 @@ clearEl.addEventListener('click', () => {
 
 undoEl.addEventListener('click', () => {
   if (drawnShapes.length > 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-    drawnShapes.pop(); // last shape remove karne ke liye
+    drawnShapes.pop();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);  // last shape remove karne ke liye
     redrawCanvas(); 
   }
 });
@@ -100,7 +101,8 @@ function storeShape() {
 }
 
 function redrawCanvas() {
-  drawnShapes.forEach((shape) => {
-    ctx.putImageData(shape, 0, 0); // sab shapes ko redraw karne ke liye except last one
-  });
-}
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawnShapes.forEach((shape) => {
+      ctx.putImageData(shape, 0, 0);
+    });
+  }
